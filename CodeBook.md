@@ -5,12 +5,12 @@ tidy_data.txt is a file with 81 columns and 180 rows. It takes the mean of 79 of
 
 # Transformations
 The tidy_data.txt data set described above was obtained by perfoming a range of transformations onn the original HAR data set. These included:
-1) Re-formatting the names used to the describe the motions measuresd in the original HAR files to make them more legible.
-2) Re-naming the activity labels to make these labels more descriptive.
-3) Merging the "test" and "training" data from the original HAR files into one large data frame.
-4) Subsetting this large data frame to extract only mean and standard deviation summary statistics 
-5) Aggregating this subsetted data frame to create a mean of each motion summary statistics for each unique subject/activity combintation.
-6) Saving and storing this aggregated data as a new data frame in a .txt file
+* Re-formatting the names used to the describe the motions measuresd in the original HAR files to make them more legible.
+* Re-naming the activity labels to make these labels more descriptive.
+* Merging the "test" and "training" data from the original HAR files into one large data frame.
+* Subsetting this large data frame to extract only mean and standard deviation summary statistics 
+* Aggregating this subsetted data frame to create a mean of each motion summary statistics for each unique subject/activity combintation.
+* Saving and storing this aggregated data as a new data frame in a .txt file
 
 # Variable Descriptions
 * subject - ID number for 30 subjects who participated in the experiment
