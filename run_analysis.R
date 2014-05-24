@@ -1,0 +1,37 @@
+setwd("~/Desktop/UCI HAR Dataset/")
+features_df <- read.table("~/Desktop/UCI HAR Dataset/features.txt")
+features <- as.character(features_df[,2])
+install.packages("gsubfn")
+library(gsubfn)
+features <- gsub("[^[:alnum:]]","", features)
+features <- gsub(pattern="mean", replacement=".mean", features)
+features <- gsub(pattern="std", replacement=".std", features)
+subject_test_data <- read.table("./test/subject_test.txt")
+subject_train_data <- read.table("./train/subject_train.txt")
+xtest_data <- read.table("./test/X_test.txt")
+xtrain_data <- read.table("./train/X_train.txt")
+ytest_data <- read.table("./test/y_test.txt")
+ytrain_data <- read.table("./train/y_train.txt")
+test_data <- cbind(ytest_data, subject_test_data, xtest_data)
+names(test_data) <- c("activity", "subject", features)
+train_data <- cbind(ytrain_data, subject_train_data, xtrain_data)
+names(train_data) <-  c("activity", "subject", features)
+samsung_data <- rbind(test_data, train_data)
+mean_data <- samsung_data[,grep("mean",colnames(samsung_data))]
+std_data <- samsung_data[,grep("std",colnames(samsung_data))]
+ysubject_data <- data.frame(rbind(cbind(ytest_data, subject_test_data), 
+                       cbind(ytrain_data, subject_train_data)))
+mean_std_data <- cbind(ysubject_data, mean_data, std_data)
+names(mean_std_data)[1] <- "activity"
+names(mean_std_data)[2] <- "subject"
+mean_std_data$activity[mean_std_data$activity==1] <- "walking"
+mean_std_data$activity[mean_std_data$activity==2] <- "walking downstairs"
+mean_std_data$activity[mean_std_data$activity==3] <- "walking upstairs"
+mean_std_data$activity[mean_std_data$activity==4] <- "sitting"
+mean_std_data$activity[mean_std_data$activity==5] <- "standing"
+mean_std_data$activity[mean_std_data$activity==6] <- "laying"
+unique(mean_std_data$activity)
+row.names(mean_std_data) <- 1:nrow(mean_std_data)
+tidy.data <-  aggregate(. ~ activity + subject, data=mean_std_data, mean)
+tidy.data <- tidy.data[,c(2,1,3:81)]
+write.table(tidy.data,"~/Desktop/UCI HAR Dataset/tidy_data.txt")
