@@ -2,7 +2,7 @@
 setwd("~/Desktop/UCI HAR Dataset/")
 
 # Read in "Features.txt" file and clean the variable labels with the sub function.
-# This file will be used as the column labels for my data set.
+# This file will be used as the column labels for my new data frame.
 features_df <- read.table("~/Desktop/UCI HAR Dataset/features.txt")
 features <- as.character(features_df[,2])
 install.packages("gsubfn")
@@ -13,7 +13,7 @@ features <- gsub(pattern="std", replacement=".std", features)
 
 # Read in other relevant files from working directory.
 # These files will provide the subject IDs, activities, and data
-# for my new data set.
+# for my new data frame.
 subject_test_data <- read.table("./test/subject_test.txt")
 subject_train_data <- read.table("./train/subject_train.txt")
 xtest_data <- read.table("./test/X_test.txt")
@@ -37,7 +37,7 @@ names(train_data) <-  c("activity", "subject", features)
 # called "samsung_data".
 samsung_data <- rbind(test_data, train_data)
 
-# Subset the "samsung_data" dataframe using the grep function to select 
+# Subset the "samsung_data" data frame using the grep function to select 
 # only those columns measuring "mean" or "std" (standard deviation).
 mean_data <- samsung_data[,grep("mean",colnames(samsung_data))]
 std_data <- samsung_data[,grep("std",colnames(samsung_data))]
@@ -49,7 +49,7 @@ ysubject_data <- data.frame(rbind(cbind(ytest_data, subject_test_data),
 
 # Bind the subject and activity mini data frame with the subsetted "mean"
 # and "std" data frames subsetted above using the grep function. This data frame -
-# temporarily titled "mean_std_data" - is the basis for my final "tidy data" table.
+# temporarily titled "mean_std_data" - is the basis for my final "tidy data" data frame.
 mean_std_data <- cbind(ysubject_data, mean_data, std_data)
 
 # Rename the the first and second columns in the "mean_std_data" data frame 
